@@ -40,3 +40,14 @@ class Model:
 
     def getNodi(self):
         return self._graph.nodes
+
+    def getAdiacenti(self, nodo):
+        result = []
+        archi_ordinati = sorted(self._graph.edges(nodo, data = True), key = lambda x: x[2].get("weight", 0), reverse=True)
+        for u,v, data in archi_ordinati:
+            peso = data["weight"]
+            lunghezza_iniziale = 70-len(str(peso))
+            testo_formattato = str(v)[:lunghezza_iniziale].ljust(lunghezza_iniziale)
+            stringa_finale = testo_formattato + str(peso)
+            result.append(f"{stringa_finale}")
+        return result

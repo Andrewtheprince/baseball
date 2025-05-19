@@ -27,7 +27,7 @@ class Controller:
         self._view._txt_result.controls.append(ft.Text(f"Grafo creato con {self._model.getNumNodi()} vertici e {self._model.getNumArchi()} archi."))
         nodi = self._model.getNodi()
         for nodo in nodi:
-            self._view._ddSquadra.options.append(ft.dropdown.Option(key = nodo.name, data = nodo, on_click=self.choiceSquadra))
+            self._view._ddSquadra.options.append(ft.dropdown.Option(key = str(nodo), data = nodo, on_click=self.choiceSquadra))
         self._view.update_page()
 
     def choiceSquadra(self, e):
@@ -37,7 +37,12 @@ class Controller:
         self._view.update_page()
 
     def handleDettagli(self, e):
-        pass
+        adiacenti = self._model.getAdiacenti(self._squadraScelta)
+        self._view._txt_result.controls.clear()
+        self._view._txt_result.controls.append(ft.Text(f"Adiacenti per la squadra {self._squadraScelta}"))
+        for stringa in adiacenti:
+            self._view._txt_result.controls.append(ft.Text(stringa))
+        self._view.update_page()
 
     def handlePercorso(self, e):
         pass
