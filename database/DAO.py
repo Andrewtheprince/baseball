@@ -41,10 +41,11 @@ class DAO:
         conn = DBConnect.get_connection()
         cursor = conn.cursor(dictionary=True)
         result = []
-        query = """ select t.ID, sum(s.salary) as tot
-                    from teams t, salaries s
-                    where t.year = %s and t.ID = s.teamID
-                    group by t.ID"""
+        query = """ select s.teamID, sum(s.salary) as totale
+                    from salaries s
+                    where s.year = %s
+                    group by s.teamID 
+                    order by totale"""
         cursor.execute(query, (anno,))
         for row in cursor:
             result.append(row)

@@ -26,7 +26,7 @@ class Model:
         self._graph.add_nodes_from(self._squadre)
         salari = DAO.getSalari(anno)
         for salario in salari:
-            self._idMapSalari[salario["ID"]] = salario["tot"]
+            self._idMapSalari[salario["teamID"]] = salario["totale"]
         for squadra in self._squadre:
             for squadra2 in self._squadre:
                 if squadra != squadra2:
