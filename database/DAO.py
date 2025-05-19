@@ -35,3 +35,19 @@ class DAO:
         cursor.close()
         conn.close()
         return result
+
+    @staticmethod
+    def getSalari(anno):
+        conn = DBConnect.get_connection()
+        cursor = conn.cursor(dictionary=True)
+        result = []
+        query = """ select t.ID, sum(s.salary) as tot
+                    from teams t, salaries s
+                    where t.year = %s and t.ID = s.teamID
+                    group by t.ID"""
+        cursor.execute(query, (anno,))
+        for row in cursor:
+            result.append(row)
+        cursor.close()
+        conn.close()
+        return result
