@@ -5,6 +5,9 @@ class View(ft.UserControl):
     def __init__(self, page: ft.Page):
         super().__init__()
         # page stuff
+        self._btnCreaGrafo = None
+        self._txtOutSquadre = None
+        self._ddAnno = None
         self._page = page
         self._page.title = "TdP Baseball Manager 2024"
         self._page.horizontal_alignment = 'CENTER'
@@ -24,11 +27,10 @@ class View(ft.UserControl):
         self._title = ft.Text("TdP Baseball Manager 2024", color="blue", size=24)
         # self._page.controls.append(self._title)
 
-        self._ddAnno = ft.Dropdown(label="Anno", width=200, alignment=ft.alignment.top_left)
+        self._ddAnno = ft.Dropdown(label="Anno", width=200, alignment=ft.alignment.top_left, on_change =self._controller.squadreAnno)
 
-        row1 = ft.Row([ft.Container(self._title, width=500),
-                       ft.Container(None, width=0),
-                       ft.Container(self._ddAnno, width=250)], alignment=ft.MainAxisAlignment.CENTER)
+        row1 = ft.Row([ft.Container(self._title, width=500)], alignment=ft.MainAxisAlignment.CENTER)
+        row15 = ft.Row([ft.Container(self._ddAnno, width=500)], alignment=ft.MainAxisAlignment.CENTER)
         self._txtOutSquadre = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=False)
         cont = ft.Container(self._txtOutSquadre, width=300, height= 200, alignment=ft.alignment.top_left, bgcolor="#deeded")
         self._btnCreaGrafo = ft.ElevatedButton(text="Crea Grafo", on_click=self._controller.handleCreaGrafo)
@@ -42,6 +44,7 @@ class View(ft.UserControl):
                        ft.Container(self._btnPercorso, width=250)], alignment=ft.MainAxisAlignment.CENTER)
 
         self._page.controls.append(row1)
+        self._page.controls.append(row15)
         self._page.controls.append(row2)
         self._page.controls.append(row3)
 
@@ -50,6 +53,7 @@ class View(ft.UserControl):
 
         self._txt_result = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)
         self._page.controls.append(ft.Container(self._txt_result, bgcolor="#deeded", height=350))
+        self._controller.fillDDAnno()
         self._page.update()
 
     @property
