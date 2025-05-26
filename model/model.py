@@ -51,3 +51,11 @@ class Model:
             stringa_finale = testo_formattato + str(peso)
             result.append(f"{stringa_finale}")
         return result
+
+    def getVicini(self, nodo):
+        vicini = nx.neighbors(self._graph, nodo)
+        viciniTuple = []
+        for v in vicini:
+            viciniTuple.append((v, self._graph[nodo][v]["weight"]))
+        viciniTuple.sort(key=lambda x: x[1], reverse = True)
+        return viciniTuple

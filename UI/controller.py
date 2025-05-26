@@ -22,7 +22,7 @@ class Controller:
         self._view.update_page()
 
     def handleCreaGrafo(self, e):
-        self._model.buildGraph(self._view._ddAnno.value)
+        self._model.buildGraph(int(self._view._ddAnno.value))
         self._view._txt_result.controls.clear()
         self._view._txt_result.controls.append(ft.Text(f"Grafo creato con {self._model.getNumNodi()} vertici e {self._model.getNumArchi()} archi."))
         nodi = self._model.getNodi()
