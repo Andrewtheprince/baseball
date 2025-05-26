@@ -1,3 +1,5 @@
+import copy
+import warnings
 import networkx as nx
 from database.DAO import DAO
 
@@ -7,6 +9,37 @@ class Model:
         self._idMapSquadre = {}
         self._squadre = []
         self._idMapSalari = {}
+        self._bestPath = []
+        self._bestScore = 0
+
+    def getBestPath(self, start):
+        self._bestPath = []
+        self._bestScore = 0
+        parziale = [start]
+        vicini = self._graph.neighbors(start)
+        for v in vicini:
+            parziale.append(v)
+            self._ricorsione(parziale)
+            parziale.pop()
+        return self._bestPath, self._bestScore
+
+    def _ricorsione(self, parziale):
+        if self.score(parziale) > self._bestScore:
+            self._bestScore = self.score(parziale)
+            self._bestPath = copy.deepcopy(parziale)
+        for v in self._graph.neighbors(parziale[-1]):
+            if v not in parziale and self._graph[parziale[-2]][parziale[-1]]["weight"] > self._graph[parziale[-1]][v]["weight"]:
+                parziale.append(v)
+                self._ricorsione(parziale)
+                parziale.pop()
+
+    def score(self, listOfNodes):
+        if len(listOfNodes) < 2:
+            warnings.warn("Errore in score, attesa lista lunga almeno 2")
+        totPeso = 0
+        for i in range(len(listOfNodes) - 1):
+            totPeso += self._graph[listOfNodes[i]][listOfNodes[i+1]]["weight"]
+        return totPeso
 
     @staticmethod
     def getAnni():

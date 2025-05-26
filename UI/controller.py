@@ -45,4 +45,9 @@ class Controller:
         self._view.update_page()
 
     def handlePercorso(self, e):
-        pass
+        self._view._txt_result.controls.clear()
+        path, score = self._model.getBestPath(self._squadraScelta)
+        self._view._txt_result.controls.append(ft.Text(f"Trovato un cammino che parte da {self._squadraScelta} con score uguale a {score}"))
+        for v in path:
+            self._view._txt_result.controls.append(ft.Text(v))
+        self._view.update_page()
